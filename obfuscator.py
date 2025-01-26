@@ -2,24 +2,23 @@ import os
 import base64
 from sys import argv
 
-# configuration
-OFFSET = 10
-VARIABLE_NAME = '__clay_clay' * 100
+offsetclay = 10
+clay = '__clay_clay' * 100
 
 def obfuscate(content):
     b64_content = base64.b64encode(content.encode()).decode()
     index = 0
-    code = f'{VARIABLE_NAME} = ""\n'
-    for _ in range(int(len(b64_content) / OFFSET) + 1):
+    code = f'{clay} = ""\n'
+    for _ in range(int(len(b64_content) / offsetclay) + 1):
         _str = ''
-        for char in b64_content[index:index + OFFSET]:
+        for char in b64_content[index:index + offsetclay]:
             byte = str(hex(ord(char)))[2:]
             if len(byte) < 2:
                 byte = '0' + byte
             _str += '\\x' + str(byte)
-        code += f'{VARIABLE_NAME} += "{_str}"\n'
-        index += OFFSET
-    code += f'exec(__import__("\\x62\\x61\\x73\\x65\\x36\\x34").b64decode({VARIABLE_NAME}.encode("\\x75\\x74\\x66\\x2d\\x38")).decode("\\x75\\x74\\x66\\x2d\\x38"))'
+        code += f'{clay} += "{_str}"\n'
+        index += offsetclay
+    code += f'exec(__import__("\\x62\\x61\\x73\\x65\\x36\\x34").b64decode({clay}.encode("\\x75\\x74\\x66\\x2d\\x38")).decode("\\x75\\x74\\x66\\x2d\\x38"))'
     return code
 
 def main():
@@ -43,10 +42,10 @@ def main():
         with open(path, 'r', encoding='utf-8', errors='ignore') as file:
             file_content = file.read()
 
-        obfuscated_content = obfuscate(file_content)
+        content = obfuscate(file_content)
 
         with open(f'{path.split(".")[0]} (obfuscated).py', 'w') as file:
-            file.write(obfuscated_content)
+            file.write(content)
 
         print('[+] Script has been obfuscated')
     except:
