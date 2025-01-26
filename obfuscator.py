@@ -32,11 +32,11 @@ def main():
     try:
         path = argv[1]
         if not os.path.exists(path):
-            print('[-] File not found')
+            print('[-] file not found')
             exit()
 
         if not os.path.isfile(path) or not path.endswith('.py'):
-            print('[-] Invalid file')
+            print('[-] invalid file')
             exit()
         
         with open(path, 'r', encoding='utf-8', errors='ignore') as file:
@@ -47,9 +47,9 @@ def main():
         with open(f'{path.split(".")[0]} (obfuscated).py', 'w') as file:
             file.write(content)
 
-        print('[+] Script has been obfuscated')
+        print('[+] script has been obfuscated')
     except:
-        print(f'Usage: py {argv[0]} <file>')
+        print(f'usage: py {argv[0]} <file>')
 
 if __name__ == '__main__':
     main()
